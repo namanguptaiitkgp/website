@@ -1,0 +1,99 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+
+using namespace std;
+
+class Queen
+{
+    int N;
+public:
+   
+    void read()
+    {
+        cout<<"Enter board size\n";
+        cin>>N;
+
+    }
+    bool solveNQ()
+	{
+		int board[100][100],i,j ;		
+		for(i=0;i<N;i++){
+
+			for(j=0;j<N;j++){
+				board[i][j]=0;
+			}
+		}
+    
+	
+				
+	    if (solveNQUtil(board, 0) == false)
+	    {
+		cout<<"Solution does not exist"<<endl;
+		return false;
+	    }
+		
+	  
+	    return true;
+	    
+	}
+    bool solveNQUtil(int board[100][100] , int col)
+	{
+	    if (col >= N)
+		return true;
+	    for (int i = 0; i < N; i++)
+	    {
+		if ( isSafe(board, i, col) )
+		{
+		    board[i][col] = 1;
+		    if (solveNQUtil(board, col + 1) == true)
+			printSolution(board);
+			
+		    board[i][col] = 0;
+		}
+	    }
+	    return false;
+	}
+    bool isSafe(int board[100][100], int row, int col)
+	{
+	    int i, j;
+	    for (i = 0; i < col; i++)
+	    {
+		if (board[row][i])
+		    return false;
+	    }
+	    for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+	    {
+		if (board[i][j])
+		    return false;
+	    }
+	 
+	    for (i = row, j = col; j >= 0 && i < N; i++, j--)
+	    {
+		if (board[i][j])
+		    return false;
+	    }
+	 
+	    return true;
+	}
+  void printSolution(int board[100][100])
+	{
+	    for (int i = 0; i < N; i++)
+	    {
+		for (int j = 0; j < N; j++)
+		    cout<<board[i][j]<<"  ";
+		cout<<endl;
+	    }
+	cout<<"\n"<<endl;
+	} 
+  
+};
+  
+int main()
+{
+    Queen A;
+    A.read();
+    A.solveNQ(); 
+ 
+    return 0;
+}
